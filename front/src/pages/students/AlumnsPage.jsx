@@ -16,7 +16,7 @@ const AlumnsPage = () => {
         actions={[
             <ButtonComponent key={'add'}
             text="Agregar"
-            onClick={() => navigate('/alumns/form')}
+            onClick={() => navigate('/main/alumns/form')}
             className='actions-class'
             ></ButtonComponent>,
             <ButtonComponent key={'back'}

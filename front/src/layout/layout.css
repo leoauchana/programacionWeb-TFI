@@ -33,3 +33,13 @@ height: 100vh;
     background-color: paleturquoise;
 }
 
+.layout-login{
+    display: flex;
+    height: 100vh;
+}
+
+.layout-border{
+    background-color: lightskyblue;
+    width: 200px;
+    height: 100vh;
+}

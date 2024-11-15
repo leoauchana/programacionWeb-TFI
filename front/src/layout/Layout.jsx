@@ -7,13 +7,13 @@ const Navigation = () => {
     return (
         <nav>
             <ul>
-                <li className={location.pathname === '/' ? 'link-selected' : ''}>
-                    <NavLink to={'/'}>
+                <li className={location.pathname === '/main' ? 'link-selected' : ''}>
+                    <NavLink to={'/main'}>
                         Pagina Principal
                     </NavLink>
                 </li>
-                <li className={location.pathname === '/alumns' || location.pathname === '/alumns/form' ? 'link-selected' : ''}>
-                    <NavLink to={'/alumns'}>
+                <li className={location.pathname === '/main/alumns' || location.pathname === '/main/alumns/form' ? 'link-selected' : ''}>
+                    <NavLink to={'/main/alumns'}>
                         Alumnos
                     </NavLink>
                 </li>

@@ -20,6 +20,8 @@ const FormPage = () => {
                     body: JSON.stringify(body)
                 });
                 if(response.ok){
+                    const student = response.json();
+                    console.log(student);
                     window.alert('Estudiante agregado con exito');
                     reset();
                     navigate(-1);

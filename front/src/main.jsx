@@ -5,23 +5,40 @@ import Layout from './layout/Layout'
 import AlumnsPage from './pages/students/AlumnsPage';
 import FormPage from './pages/students/FormPage';
 import MainPage from './pages/MainPage';
+import Login from './pages/login/Login';
+import Register from './pages/login/Register'
 import './index.css';
+import LayoutLogin from './layout/LayoutLogin';
 
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <LayoutLogin />,
+    children: [
+      {
+      path: '/',
+      element: <Login />
+      },
+      {
+        path: '/register',
+        element: <Register />
+      }  
+    ]
+  },
+  {
+    path: '/main',
     element: <Layout />,
     children: [
       {
-        path: '/',
+        path: '',
         element: <MainPage />
       },
       {
-        path:'/alumns',
+        path:'alumns',
         element: <AlumnsPage />
       },
       {
-        path: '/alumns/form',
+        path: 'alumns/form',
         element: <FormPage />
       }
     ]

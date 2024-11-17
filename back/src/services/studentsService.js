@@ -1,8 +1,8 @@
 StudentsRepository = require('../repository/studentsRepository');
 
-const getStudents = async () => {
+const getStudents = async (id) => {
     try{
-    const students = await StudentsRepository.getAll();
+    const students = await StudentsRepository.getAll(id);
     return students;
     } catch(err) {
         console.error(`Error in studentsService ${err}`);

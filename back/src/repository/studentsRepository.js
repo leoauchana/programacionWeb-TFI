@@ -1,14 +1,15 @@
 const { Sequelize, Op } = require("sequelize");
 const Students = require("../models/students");
 
-const getAll = async () => {
+const getAll = async (idUser) => {
   try {
     return await Students.findAll({
       where: {
         deleted: 0,
+        user_id: idUser
       },
       attributes: {
-        exclude: "deleted",
+        exclude: "createdAt, updateAt, deleted",
       },
     });
   } catch (err) {

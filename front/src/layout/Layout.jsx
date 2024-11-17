@@ -1,8 +1,13 @@
 import './layout.css';
-import {NavLink, Outlet, useLocation} from 'react-router-dom';
+import {Navigate, NavLink, Outlet, useLocation} from 'react-router-dom';
+import { useAuth } from '../context/auth.context';
 
 const Navigation = () => {
     const location = useLocation();
+    const {  isAuthenticated } = useAuth();
+
+    if(!isAuthenticated) return <Navigate to={'/'} replace/>
+
 
     return (
         <nav>

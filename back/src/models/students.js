@@ -54,6 +54,16 @@ class Students extends Model {
     );
     return this;
   };
-}
+
+  static associate = models => {
+    this.belongsTo(models.Users, {
+        foreignKey: 'user_id',
+        as: 'user'
+    });
+};
+
+};
+
+
 
 module.exports = Students;

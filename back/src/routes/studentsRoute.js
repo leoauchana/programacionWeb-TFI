@@ -2,7 +2,9 @@ const {Router} = require('express');
 const {getStudentsPages, createStudent, deleteStudent} = require('../services/studentsService');
 const {validateBody, validateBySid} = require('../middleware/studentsMiddleware')
 const routerStudents = Router();
+const { authenticateToken } = require("../middleware/authMiddleware");
 
+routerStudents.use(authenticateToken);
 
 routerStudents.get('/', async (req, res) => {
     try{

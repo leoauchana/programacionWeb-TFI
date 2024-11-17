@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const routerStudents = require('./routes/studentsRoute');
+const authRoute = require('./routes/auth.routes');
 const app = express();
 require('./config/setupModel');
 
@@ -9,8 +10,8 @@ app.set('port',3000);
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use('/api/auth', authRoute);
 app.use('/api/students',routerStudents);
-
 
 
 app.use((req, res) => {

@@ -10,9 +10,9 @@ const getStudents = async (id) => {
     }
 };
 
-const createStudent = async (student) => {
+const createStudent = async (student, idUser) => {
     try{
-    const newStudent = await StudentsRepository.createNewStudent(student);
+    const newStudent = await StudentsRepository.createNewStudent(student, idUser);
     return newStudent;
     } catch(err){
         console.error(`Error in studentsService ${err}`);
@@ -20,9 +20,9 @@ const createStudent = async (student) => {
     }
 };
 
-const deleteStudent = async (sid) => {
+const deleteStudent = async (sid, idUser) => {
     try {
-        const result = await StudentsRepository.deleteBySid(sid);
+        const result = await StudentsRepository.deleteBySid(sid, idUser);
         return result;
     } catch (err) {
         console.error(`Error in studentsService ${err}`);
@@ -30,9 +30,9 @@ const deleteStudent = async (sid) => {
     }
 };
 
-const getStudentsPages = async (search, currentPage, pageSize) => {
+const getStudentsPages = async (search, currentPage, pageSize, idUser) => {
     try{
-        return await StudentsRepository.getStudentsPagination(search, currentPage, pageSize);
+        return await StudentsRepository.getStudentsPagination(search, currentPage, pageSize, idUser);
     } catch(err){
         console.error(`Error in studentsService ${err}`);
         throw err;

@@ -7,7 +7,7 @@ const createUser = async (user) => {
       where: { userName: user.userName },
     });
     if (existingUser) {
-      throw new Error(`UserName existing`);
+      return res.status(404).json({ message: "El nombre de usuario ya existe" });
     }
     const passwordHash = await bcrypt.hash(user.password, 10);
     const newUser = {
@@ -18,7 +18,11 @@ const createUser = async (user) => {
       createdAt: new Date(),
     };
     const userCreated = await Users.create(newUser);
-    return userCreated;
+    return {
+      name: userCreated.name,
+      lastName: userCreated.lastName,
+      userName: userCreated.userName
+    };
   } catch (err) {
     throw err;
   }
@@ -33,11 +37,11 @@ const authenticateUser = async (dataUser) => {
       },
     });
     if (!userFound) {
-      throw new Error(`User nonexistent`);
+      return res.status(404).json({ message: "El usuario no existe" });
     }
     const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch) {
-      throw new Error(`Incorrect password`);
+      return res.status(404).json({ message: "La contraseña es incorrecta" });
     }
     return userFound;
   } catch (err) {
@@ -48,7 +52,7 @@ const authenticateUser = async (dataUser) => {
 const getByIdUser = async (id) => {
   try{
     const userFound = Users.findByPk(id);
-    if(!userFound) throw new Error(`Usuario not found`);
+    if(!userFound) return res.status(404).json({ message: "User not found" });
     return userFound;
   }
     catch(err){

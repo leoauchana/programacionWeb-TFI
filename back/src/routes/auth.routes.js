@@ -12,10 +12,6 @@ authRoute.post('/register', validateBodyRegister, register);
 
 authRoute.post('/login', login);
 
-authRoute.post('logOut', logOut);
-
 authRoute.get('/verify', verifyToken);
-
-authRoute.get('/profile', validateToken, profile);
 
 module.exports = authRoute;

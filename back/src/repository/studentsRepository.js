@@ -34,13 +34,14 @@ const getById = async (id) => {
   }
 };
 
-const createNewStudent = async (student) => {
+const createNewStudent = async (student, idUser) => {
   try {
     const existsStudent = await Students.findOne({
       where: {
         [Sequelize.Op.or]: [{ email: student.email }, { dni: student.dni }],
       },
-      deleted: 0
+      deleted: 0,
+      user_id: idUser
     });
     if (existsStudent) {
       throw new Error(`Ya existe un estudiante con ese email o dni`);
@@ -56,6 +57,7 @@ const createNewStudent = async (student) => {
       ...student,
       sid: newSid,
       createdAt: new Date(),
+      user_id: idUser
     };
     const newStudent = await Students.create(student);
     return newStudent;
@@ -65,12 +67,15 @@ const createNewStudent = async (student) => {
   }
 };
 
-const deleteBySid = async (sid) => {
+const deleteBySid = async (sid, idUser) => {
   try {
     return await Students.update(
       { deleted: 1 },
       {
-        where: { sid: sid },
+        where: { 
+          sid: sid,
+          user_id: idUser
+        },
       }
     );
   } catch (err) {
@@ -79,7 +84,7 @@ const deleteBySid = async (sid) => {
   }
 };
 
-const getStudentsPagination = async (search, currentPage, pageSize) => {
+const getStudentsPagination = async (search, currentPage, pageSize, idUser) => {
   try {
     const offset = (currentPage - 1) * pageSize;
     return await Students.findAndCountAll({
@@ -88,6 +93,7 @@ const getStudentsPagination = async (search, currentPage, pageSize) => {
           [Op.startsWith]: search,
         },
         deleted: 0,
+        user_id: idUser
       },
       limit: pageSize,
       offset,

@@ -13,7 +13,8 @@ const getAllStudents = async (req, res) => {
     const students = await getStudentsPages(
       searchValue,
       parseInt(currentPage),
-      parseInt(pageSize)
+      parseInt(pageSize),
+      parseInt(req.user.id)
     );
     res.json(students);
   } catch (err) {
@@ -24,7 +25,7 @@ const getAllStudents = async (req, res) => {
 
 const createNewStudent = async (req, res) => {
   try {
-    const newStudent = await createStudent(req.body);
+    const newStudent = await createStudent(req.body, parseInt(req.user.id));
     res.json(newStudent);
   } catch (err) {
     res
@@ -35,7 +36,7 @@ const createNewStudent = async (req, res) => {
 
 const deleteNewStudent = async (req, res) => {
   try {
-    const result = await deleteStudent(req.params.sid);
+    const result = await deleteStudent(req.params.sid, parseInt(req.user.id));
     if (result) {
       res.sendStatus(204);
     } else {

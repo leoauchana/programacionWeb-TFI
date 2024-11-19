@@ -1,44 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from "../../components/Button";
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useAuth } from '../../context/auth.context';
 
 const Register = () => {
     const navigate = useNavigate();
-    const {register, handleSubmit, reset, formState: {errors}} = useForm();
-    const [errorsRegister, setErrorsRegister] = useState([]);
+    const {register, handleSubmit, formState: {errors}} = useForm();
+
+    const { signUp, errors: signupErrors } = useAuth();
+
     const handleRegister = async (values) => {
         try{
-            const body = {
+            const newUser = {
                 name: values.inputNameValue,
                 lastName: values.inputLastNameValue,
                 userName: values.inputUserNameValue,
                 password: values.inputPasswordValue
             };
-                const response = await fetch(`/api/register`,{
-                    method: 'POST',
-                    body: JSON.stringify(body)
-                });
-                if(response.ok){
-                    const newUser = response.json();
-                    console.log(newUser);
-                    window.alert('¡Ha sido registrado con éxito!');
-                    reset();
-                    navigate(-1);
-                } else {
-                    const errorData = await response.json();
-                    window.alert(`${errorData.message}`);
-                }
-        }catch(err){
-            console.error(err)
-            setErrorsRegister(err.response.data);
-        }
+            await signUp(newUser);
+        } catch(err) {
+            console.error(err);
+        }            
     }
 
     return (
         <div className="container-login">
             {
-                errorsRegister.map((error,i) => {
+                signupErrors.map((error,i) => {
                     <div className='' key={i}>
                         {error}
                     </div>
@@ -46,6 +34,13 @@ const Register = () => {
             }
             <form>
                 <div className="register-form register-box">
+                    {
+                        signupErrors && signupErrors.length > 0 && signupErrors.map((error, i) => (
+                            <div className='errors-style-register' key={i}>
+                                {error}
+                            </div>
+                        ))
+                    }
                     <div className="content-label-name-register">
                         <label htmlFor="inputNameValue">Nombre</label>
                     </div>
@@ -83,6 +78,9 @@ const Register = () => {
                             },
                         })}/>
                     </div>
+                    {
+                                errors.inputLastNameValue && <p className='content-input-error-last'>{errors.inputLastNameValue?.message}</p>
+                    } 
                     <div className="content-label-userName-register">
                         <label htmlFor="inputUserNameValue">Usuario</label>
                     </div>
@@ -101,6 +99,9 @@ const Register = () => {
                         })}
                         />
                     </div>
+                    {
+                                errors.inputUserNameValue && <p className='content-input-error-userName'>{errors.inputUserNameValue?.message}</p>
+                    } 
                     <div className="content-label-password-register">
                         <label htmlFor="inputPasswordValue">Contraseña</label>
                     </div>
@@ -119,6 +120,9 @@ const Register = () => {
                         })}
                         />
                     </div>
+                    {
+                                errors.inputPasswordValue && <p className='content-input-error-password'>{errors.inputPasswordValue?.message}</p>
+                    } 
                     <div className="content-button-back">
                         <ButtonComponent 
                             text="Volver"

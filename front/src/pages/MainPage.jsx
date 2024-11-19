@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import PageContent from "../components/PageContent";
 import './pagesStyles.css';
 import ButtonComponent from "../components/Button";
+import { useAuth } from "../context/auth.context";
 
 const MainPage = () => {
     const navigate = useNavigate();
-
+    const { logout } = useAuth()
     return (
         <PageContent
         headerTitle="Pagina Principal"
@@ -13,7 +14,10 @@ const MainPage = () => {
             <ButtonComponent key={'close'}
             text="Cerrar Sesión"
             className='button-close'
-            onClick={() => navigate('/')}
+            onClick={() => {
+                logout()
+                navigate('/');
+            }}
             />
         ]}
         >

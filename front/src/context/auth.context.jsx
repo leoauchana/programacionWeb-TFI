@@ -28,12 +28,12 @@ export const AuthProvider = ({children}) => {
                 });
                 if(!response.ok){
                     const errorData = await response.json();
+                    console.log(errorData.data);
                     throw new Error(errorData.message)
                 }
                 const newUser = await response.json();
                 setUser(newUser);
                 setIsAutenticated(true);
-                window.alert('¡Inicio de Sessión!');
                 return true;
         }catch(err){
             console.error(err)
@@ -57,6 +57,7 @@ export const AuthProvider = ({children}) => {
                     window.alert('¡Ha sido registrado con éxito!');
         }catch(err){
             console.error(err)
+            setErrors([err.message])
         }
     }
 
@@ -71,7 +72,7 @@ export const AuthProvider = ({children}) => {
         if(errors.length > 0) {
             const timer = setTimeout(() => {
                setErrors([]); 
-            }, 3000);
+            }, 1000);
             return () => clearTimeout(timer);
         }
     }, [errors])

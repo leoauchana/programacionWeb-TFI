@@ -2,13 +2,11 @@ import ButtonComponent from '../../components/Button';
 import {useNavigate} from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../context/auth.context';
-// import { useState } from 'react';
 
 const Login = () => {
     const navigate = useNavigate();
     const {register, handleSubmit, formState: {errors}} = useForm();
     const { signIn, errors: signinErrors } = useAuth();
-    // const [errorsLogin, setErrorsLogin] = useState([]);
 
 
     const handleLogin = async (values) => {
@@ -28,7 +26,6 @@ const Login = () => {
     return (
         <div className="container-login">
             <form>
-                <div className="login-form login-box">
                     {
                         signinErrors && signinErrors.length > 0 && signinErrors.map((error, i) => (
                             <div className='errors-style-login' key={i}>
@@ -36,12 +33,15 @@ const Login = () => {
                             </div>
                         ))
                     }
+                <div className="login-form login-box">
+                    <h2>Login</h2>
                     <div className="content-label-userName-login">
                         <label htmlFor="inputUserNameValue">Usuario</label>
                     </div>
                     <div className="content-input-userName-login">
                         <input 
                         type="text"
+                        autoComplete='off'
                         {...register('inputUserNameValue', {
                             required: {
                                 value: true,
@@ -51,6 +51,10 @@ const Login = () => {
                                 value: 45,
                                 message:"Usuario debe tener menor de 45 carácteres"
                             },
+                            minLength: {
+                                value: 5,
+                                message:"Usuario debe tener mas de 5 caracteres"
+                            }
                         })}
                         />
                     </div>

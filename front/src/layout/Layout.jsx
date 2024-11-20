@@ -5,7 +5,6 @@ import { useAuth } from '../context/auth.context';
 const Navigation = () => {
     const location = useLocation();
     const {  loading, isAuthenticated } = useAuth();
-    console.log(isAuthenticated);
 
     if(loading) return <h1>Loading ..</h1>
     if(!loading && !isAuthenticated) return <Navigate to={'/'} replace/>

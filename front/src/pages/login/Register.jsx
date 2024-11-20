@@ -5,7 +5,7 @@ import { useAuth } from '../../context/auth.context';
 
 const Register = () => {
     const navigate = useNavigate();
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const {register, reset, handleSubmit, formState: {errors}} = useForm();
 
     const { signUp, errors: signupErrors } = useAuth();
 
@@ -18,6 +18,7 @@ const Register = () => {
                 password: values.inputPasswordValue
             };
             await signUp(newUser);
+            reset();
         } catch(err) {
             console.error(err);
         }            
@@ -25,28 +26,23 @@ const Register = () => {
 
     return (
         <div className="container-login">
+            <form>
             {
-                signupErrors.map((error,i) => {
-                    <div className='' key={i}>
+                signupErrors && signupErrors.length > 0 && signupErrors.map((error, i) => (
+                    <div className='errors-style-register' key={i}>
                         {error}
                     </div>
-                })
+                ))
             }
-            <form>
                 <div className="register-form register-box">
-                    {
-                        signupErrors && signupErrors.length > 0 && signupErrors.map((error, i) => (
-                            <div className='errors-style-register' key={i}>
-                                {error}
-                            </div>
-                        ))
-                    }
+                <h2>Register</h2>
                     <div className="content-label-name-register">
                         <label htmlFor="inputNameValue">Nombre</label>
                     </div>
                     <div className="content-input-name-register">
                         <input 
                         type="text"
+                        autoComplete='off'
                         {...register('inputNameValue', {
                             required: {
                                 value: true,
@@ -56,6 +52,10 @@ const Register = () => {
                                 value: 45,
                                 message:"Nombre debe tener menor de 45 carácteres"
                             },
+                            pattern: {
+                                value: /^[a-zA-Z]+$/,
+                                message: "Solo se aceptan letras"
+                            }
                         })}/>
                     </div>
                     {
@@ -67,6 +67,7 @@ const Register = () => {
                     <div className="content-input-last-register">
                         <input 
                         type="text"
+                        autoComplete='off'
                         {...register('inputLastNameValue', {
                             required: {
                                 value: true,
@@ -76,6 +77,10 @@ const Register = () => {
                                 value: 45,
                                 message:"Apellido debe tener menor de 45 carácteres"
                             },
+                            pattern: {
+                                value: /^[a-zA-Z]+$/,
+                                message: "Solo se aceptan letras"
+                            }
                         })}/>
                     </div>
                     {
@@ -87,6 +92,7 @@ const Register = () => {
                     <div className="content-input-userName-register">
                         <input 
                         type="text"
+                        autoComplete='off'
                         {...register('inputUserNameValue', {
                             required: {
                                 value: true,
@@ -96,6 +102,14 @@ const Register = () => {
                                 value: 45,
                                 message:"Usuario debe tener menor de 45 carácteres"
                             },
+                            minLength: {
+                                value: 5,
+                                message:"Usuario debe tener mas de 5 caracteres"
+                            },
+                            pattern: {
+                                value: /^[a-zA-Z0-9]+$/,
+                                message: "Solo se aceptan letras y números"
+                            }
                         })}
                         />
                     </div>
@@ -117,6 +131,10 @@ const Register = () => {
                                 value: 50,
                                 message:"Contraseña debe tener menor de 50 carácteres"
                             },
+                            minLength: {
+                                value: 4,
+                                message: `Contraseña debe tener más de 4 caracteres`
+                            }
                         })}
                         />
                     </div>

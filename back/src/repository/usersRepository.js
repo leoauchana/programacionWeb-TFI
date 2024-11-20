@@ -6,9 +6,7 @@ const createUser = async (user) => {
     const existingUser = await Users.findOne({
       where: { userName: user.userName },
     });
-    if (existingUser) {
-      return res.status(404).json({ message: "El nombre de usuario ya existe" });
-    }
+    if (existingUser) throw new Error(`El nombre de usuario ya existe`);
     const passwordHash = await bcrypt.hash(user.password, 10);
     const newUser = {
       name: user.name,
@@ -37,11 +35,11 @@ const authenticateUser = async (dataUser) => {
       },
     });
     if (!userFound) {
-      return res.status(404).json({ message: "El usuario no existe" });
+     throw new Error(`Usuario no existe`);
     }
     const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch) {
-      return res.status(404).json({ message: "La contraseña es incorrecta" });
+      throw new Error(`La contraseña es incorrecta`);
     }
     return userFound;
   } catch (err) {
@@ -52,7 +50,7 @@ const authenticateUser = async (dataUser) => {
 const getByIdUser = async (id) => {
   try{
     const userFound = Users.findByPk(id);
-    if(!userFound) return res.status(404).json({ message: "User not found" });
+    if(!userFound) throw new Error(`Usuario no encontrado`);
     return userFound;
   }
     catch(err){
